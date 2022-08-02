@@ -1,4 +1,4 @@
-import { IUser, UserEnumRoleEnum } from '@email-pay/interfaces';
+import { IUser, UserRoleEnum } from '@email-pay/interfaces';
 import { compare, genSalt, hash } from 'bcrypt';
 
 export class UserEntity implements IUser {
@@ -6,10 +6,11 @@ export class UserEntity implements IUser {
   userName: string;
   email: string;
   passwordHash: string;
-  role: UserEnumRoleEnum;
+  role: UserRoleEnum;
 
   constructor(user: IUser) {
     this._id = user._id;
+    this.passwordHash = user.passwordHash
     this.userName = user.userName;
     this.email = user.email;
     this.role = user.role;
@@ -21,7 +22,7 @@ export class UserEntity implements IUser {
     return this;
   }
 
-  public async validatePassword(password:string) {
-    return await compare(password, this.passwordHash)
+  public async validatePassword(password: string) {
+    return await compare(password, this.passwordHash);
   }
 }

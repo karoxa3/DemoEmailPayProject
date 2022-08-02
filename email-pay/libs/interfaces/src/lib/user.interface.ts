@@ -1,4 +1,4 @@
-export enum UserEnumRoleEnum {
+export enum UserRoleEnum {
   VENDER = 'Vender',
   CUSTOMER = 'Customer',
 }
@@ -7,5 +7,5 @@ export interface IUser {
   userName: string;
   email: string;
   passwordHash: string;
-  role: UserEnumRoleEnum;
+  role: UserRoleEnum;
 }

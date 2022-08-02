@@ -1,5 +1,5 @@
 import { Document } from 'mongoose';
-import { IUser, UserEnumRoleEnum } from '@email-pay/interfaces';
+import { IUser, UserRoleEnum } from '@email-pay/interfaces';
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 
 @Schema()
@@ -15,11 +15,11 @@ export class User extends Document implements IUser {
 
   @Prop({
     required: true,
-    enum: UserEnumRoleEnum,
+    enum: UserRoleEnum,
     type: String,
-    default: UserEnumRoleEnum.CUSTOMER,
+    default: UserRoleEnum.CUSTOMER,
   })
-  role: UserEnumRoleEnum;
+  role: UserRoleEnum;
 }
 
 export const UserSchema = SchemaFactory.createForClass(User);
