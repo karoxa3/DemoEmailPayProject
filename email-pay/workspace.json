@@ -1,8 +1,10 @@
 {
-  "$schema": "./node_modules/nx/schemas/workspace-schema.json",
-  "version": 2,
-  "projects": {
-    "account": "apps/account",
-    "interfaces": "libs/interfaces"
-  }
+    "$schema": "./node_modules/nx/schemas/workspace-schema.json",
+    "version": 2,
+    "projects": {
+        "account": "apps/account",
+        "api": "apps/api",
+        "contracts": "libs/contracts",
+        "interfaces": "libs/interfaces"
+    }
 }
