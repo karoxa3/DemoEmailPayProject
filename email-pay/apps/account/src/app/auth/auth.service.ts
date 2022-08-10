@@ -1,10 +1,11 @@
+import { AccountRegister } from '@email-pay/contracts';
 import { UserRoleEnum } from '@email-pay/interfaces';
-import { Injectable } from '@nestjs/common';
+import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { UserEntity } from '../user/entities/user.entity';
 import { UserRepository } from '../user/repositories/user.repostitory';
 import { LoginDto } from './dto/login.dto';
-import { RegisterDto } from './dto/register.dto';
+// import { RegisterDto } from './dto/register.dto';
 
 @Injectable()
 export class AuthService {
@@ -20,10 +21,13 @@ export class AuthService {
         userName,
         email,
         password,
-    }: RegisterDto): Promise<{ email: string }> {
+    }: AccountRegister.Request): Promise<{ email: string }> {
         const oldUser = await this.userRepository.findUser(email);
         if (oldUser) {
-            throw new Error('This user is already registered.');
+            throw new HttpException(
+                'This user is already registered.',
+                HttpStatus.BAD_REQUEST
+            );
         }
         const newUserEntity = await new UserEntity({
             userName,
@@ -41,21 +45,27 @@ export class AuthService {
      * Проверка пользователя на валидность
      */
     async validateUser({ email, password }: LoginDto): Promise<{ id: string }> {
-        const user = await this.userRepository.findUser(email);
+        try {
+            const user = await this.userRepository.findUser(email);
 
-        if (!user) {
-            throw new Error('Неверный логин или пароль.');
+            if (!user) {
+                throw new Error('Неверный логин или пароль.');
+            }
+
+            const userEntity = new UserEntity(user);
+
+            const isCorrectPassword = await userEntity.validatePassword(
+                password
+            );
+
+            if (!isCorrectPassword) {
+                throw new Error('Неверный логин или пароль.');
+            }
+
+            return { id: user._id };
+        } catch (error) {
+            console.log(error);
         }
-
-        const userEntity = new UserEntity(user);
-
-        const isCorrectPassword = await userEntity.validatePassword(password);
-
-        if (!isCorrectPassword) {
-            throw new Error('Неверный логин или пароль.');
-        }
-
-        return { id: user._id };
     }
 
     async login(id: string) {
