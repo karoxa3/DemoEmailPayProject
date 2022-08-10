@@ -1,10 +1,10 @@
-import { AccountRegister } from '@email-pay/contracts';
+import { AccountLogin, AccountRegister } from '@email-pay/contracts';
 import { UserRoleEnum } from '@email-pay/interfaces';
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { UserEntity } from '../user/entities/user.entity';
 import { UserRepository } from '../user/repositories/user.repostitory';
-import { LoginDto } from './dto/login.dto';
+// import { LoginDto } from './dto/login.dto';
 // import { RegisterDto } from './dto/register.dto';
 
 @Injectable()
@@ -44,7 +44,10 @@ export class AuthService {
     /**
      * Проверка пользователя на валидность
      */
-    async validateUser({ email, password }: LoginDto): Promise<{ id: string }> {
+    async validateUser({
+        email,
+        password,
+    }: AccountLogin.Request): Promise<{ id: string }> {
         try {
             const user = await this.userRepository.findUser(email);
 

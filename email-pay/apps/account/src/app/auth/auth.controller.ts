@@ -3,7 +3,7 @@ import { RMQRoute, RMQValidate } from 'nestjs-rmq';
 import { AuthService } from './auth.service';
 import { AccountLogin, AccountRegister } from '@email-pay/contracts';
 
-@Controller('auth')
+@Controller()
 export class AuthController {
     constructor(private readonly authService: AuthService) {}
 
