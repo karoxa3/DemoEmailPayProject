@@ -25,7 +25,7 @@ export class AuthService {
         const oldUser = await this.userRepository.findUser(email);
         if (oldUser) {
             throw new HttpException(
-                'This user is already registered. Изменение номер 2222222',
+                'This user is already registered. Изменение номер 111111111',
                 HttpStatus.BAD_REQUEST
             );
         }
