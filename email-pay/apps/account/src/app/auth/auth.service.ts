@@ -52,7 +52,7 @@ export class AuthService {
             const user = await this.userRepository.findUser(email);
 
             if (!user) {
-                throw new Error('Неверный логин или пароль.');
+                throw new Error('Неверный логин или пароль. Изменение номер 3333333');
             }
 
             const userEntity = new UserEntity(user);
